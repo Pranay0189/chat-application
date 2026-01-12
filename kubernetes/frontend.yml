@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: chatapp-frontend
-        image: pranay801/chat-app-frontend
+        image: pranay801/chat-app-frontend:1
         ports:
         - containerPort: 80
         env:

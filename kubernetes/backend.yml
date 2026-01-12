@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: pranay801/chat-app-backend:latest
+        image: pranay801/chat-app-backend:1
         imagePullPolicy: Always
         ports:
         - containerPort: 5001
