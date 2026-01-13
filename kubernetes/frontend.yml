@@ -10,8 +10,6 @@ spec:
       app: frontend
   template:
     metadata:
-      name: frontend-pod
-      namespace: chat-app
       labels:
         app: frontend
     spec:
@@ -23,3 +21,39 @@ spec:
         env:
         - name: NODE_ENV
           value: production
+
+        # ---- STARTUP PROBE ----
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 12
+
+        # ---- READINESS PROBE ----
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+        # ---- LIVENESS PROBE ----
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "300m"
+          limits:
+            memory: "650Mi"
+            cpu: "450m"

@@ -10,14 +10,12 @@ spec:
       app: backend
   template:
     metadata:
-      name: backend-pod
-      namespace: chat-app
       labels:
         app: backend
     spec:
       containers:
       - name: backend-container
-        image: pranay801/chat-app-backend:1
+        image: pranay801/chat-app-backend:2
         imagePullPolicy: Always
         ports:
         - containerPort: 5001
@@ -33,3 +31,36 @@ spec:
               key: jwt
         - name: PORT
           value: "5001"
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "300m"
+          limits:
+            memory: "650Mi"
+            cpu: "400m"
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          failureThreshold: 12
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 3
+          failureThreshold: 3
+
